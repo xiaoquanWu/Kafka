@@ -1,0 +1,48 @@
+<project name="tool" basedir=".">
+    <property environment="env"/>
+    <property name="env.NUKE_HOME" location="D:\Nuke\env"/>
+    <property file="${env.NUKE_HOME}/ant/env.properties" />
+
+	<taskdef name="jar-combine" classname="com.derby.nuke.ant.JarCombineTask">
+		<classpath>
+			<path path="${nuke.ant}/nuke-ant.jar"/>
+		</classpath>
+	</taskdef>
+
+    <target name="jar-combine">
+        <jar-combine
+                jarfile="E:\nuke\smack.jar"
+                directory="E:\nuke\tmp\smack"/>
+    </target>
+
+	<target name="setup-java">
+
+        <mkdir dir="${src.main.java}" />
+        <mkdir dir="${src.test.java}" />
+
+        <copy file="${nuke.ant}/template/build-jar.xml" tofile="${root}/build.xml" />
+        <copy file="${nuke.ant}/template/lib.properties" tofile="${root}/lib.properties" />
+		
+		<mkdir dir="${doc}" />
+		<copy file="${nuke.ant}/template/index.html" tofile="${doc}/index.html" />
+		<copy file="${nuke.ant}/template/spec.html" tofile="${doc}/spec.html" />
+    </target>
+
+	<target name="setup-web">
+
+        <mkdir dir="${src.main.java}" />
+        <mkdir dir="${src.test.java}" />
+        <mkdir dir="${src.config}" />
+        
+        <copy file="${nuke.ant}/template/build-war.xml" tofile="${root}/build.xml" />
+        <copy file="${nuke.ant}/template/lib.properties" tofile="${root}/lib.properties" />
+		
+		<mkdir dir="${web}/WEB-INF" />
+        <copy file="${nuke.ant}/template/web.xml" tofile="${web}/WEB-INF/web.xml" />
+
+		<mkdir dir="${doc}" />
+		<copy file="${nuke.ant}/template/index.html" tofile="${doc}/index.html" />
+		<copy file="${nuke.ant}/template/spec.html" tofile="${doc}/spec.html" />
+    </target>
+
+</project>
