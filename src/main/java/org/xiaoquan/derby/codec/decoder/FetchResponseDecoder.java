@@ -45,6 +45,9 @@ public class FetchResponseDecoder implements Decoder {
                     long highWaterMarkOffset = dataInputStream.readLong();
                     //messageSetSize
                     int messageSetSize = dataInputStream.readInt();
+                    if (messageSetSize == 0) {
+                        break;
+                    }
 
                     //offset
                     long offset = dataInputStream.readLong();

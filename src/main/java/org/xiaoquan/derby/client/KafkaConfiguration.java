@@ -12,7 +12,7 @@ public class KafkaConfiguration {
 
     //application
     public static String KAFKA_BROKER = "127.0.0.1:9093"; // ["kafka.server.broker]
-    public static String KAFKA_TOPIC_NAMES = "test02,test2"; //["kafka.server.topic.names"]
+    public static String KAFKA_TOPIC_NAMES = "test02,test2, test03"; //["kafka.server.topic.names"]
     public static int METADATA_REFRESH_TIME = 5; //分钟
     public static short MESSAGE_COMPRESSION = 0;//Gzip [none:0, gzip:1, snappy:2] ["message_compression"]
 
@@ -44,9 +44,9 @@ public class KafkaConfiguration {
     public static int OFFSET_REQUEST_DEFAULT_MAX_NUMBER_OF_OFFSETS = 1; //["offset.request.default.max.number.of.offsets"]
 
     //fetchRequest
-    public static int FETCH_REQUEST_MAX_WAIT_TIME = 1000; //milliseconds  ["fetch.request.max.wait.time"]
+    public static int FETCH_REQUEST_MAX_WAIT_TIME =3000; //milliseconds  ["fetch.request.max.wait.time"]
     public static int FETCH_REQUEST_REPLICA_ID = -1; //["fetch.request.replica.id"]
-    public static int FETCH_REQUEST_MIN_BYTES = 1; // ["fetch.request.min.bytes"]
+    public static int FETCH_REQUEST_MIN_BYTES = 0; // ["fetch.request.min.bytes"]
     public static int FETCH_REQUEST_MAX_BYTES = 1024; // ["fetch.request.max.bytes"]
     public static short FETCH_REQUEST_API_VERSION = 0; //["fetch.request.api.version"]
     public static int FETCH_REQUEST_CORRELATION_ID = 5;//["fetch.request.correlation.id"]

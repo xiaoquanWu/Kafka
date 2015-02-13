@@ -25,12 +25,11 @@ public class BaseResponse implements Response {
     protected BaseResponse() {
     }
 
-    public BaseResponse(InputStream inputStream) throws IOException {
+    public BaseResponse(InputStream inputStream) throws Exception {
         DataInputStream dataInputStream = new DataInputStream(inputStream);
         int size = dataInputStream.readInt();
         byte[] responseBytes = new byte[size];
-        dataInputStream.read(responseBytes);
-        IOUtils.closeQuietly(inputStream);
+        dataInputStream.read(responseBytes, 0, size);
 
         ByteBuffer byteBuffer = ByteBuffer.allocate(4 + size);
         byteBuffer.putInt(size);

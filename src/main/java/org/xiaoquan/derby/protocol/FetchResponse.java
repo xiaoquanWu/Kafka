@@ -1,7 +1,9 @@
 package org.xiaoquan.derby.protocol;
 
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Table;
 import org.xiaoquan.derby.Record;
 
 import java.util.Map;
@@ -14,12 +16,10 @@ public class FetchResponse extends BaseResponse {
     private ListMultimap<String, PartitionFetchResponse> topicPartitionFetchResponse = ArrayListMultimap.create();
 
 
+    private Table<String, Integer, Record<String, String>> topicPartitionRecords = HashBasedTable.create();
+
     public ListMultimap<String, PartitionFetchResponse> getTopicPartitionFetchResponse() {
         return topicPartitionFetchResponse;
-    }
-
-    public Map<String, Map<Integer, Record<String, String>>> getTopicPartitionRecords() {
-        return null;
     }
 
     @Override
@@ -86,6 +86,50 @@ public class FetchResponse extends BaseResponse {
 
         public void setValue(String value) {
             this.value = value;
+        }
+
+        public int getPartition() {
+            return partition;
+        }
+
+        public long getOffset() {
+            return offset;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public short getErrorCode() {
+            return errorCode;
+        }
+
+        public int getMessageSetSize() {
+            return messageSetSize;
+        }
+
+        public long getHighWaterMarkOffset() {
+            return highWaterMarkOffset;
+        }
+
+        public int getMessageSize() {
+            return messageSize;
+        }
+
+        public int getCrc() {
+            return crc;
+        }
+
+        public byte getMagicByte() {
+            return magicByte;
+        }
+
+        public byte getAttributes() {
+            return attributes;
         }
 
         @Override

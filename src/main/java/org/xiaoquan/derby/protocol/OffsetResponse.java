@@ -34,6 +34,14 @@ public class OffsetResponse extends BaseResponse{
             this.offsets = offsets;
         }
 
+        public int getPartitionId() {
+            return partitionId;
+        }
+
+        public Set<Long> getOffsets() {
+            return offsets;
+        }
+
         @Override
         public String toString() {
             return "{partitionId:" + partitionId + ", errorCode: " + errorCode + ", offSets:" + offsets + "}";

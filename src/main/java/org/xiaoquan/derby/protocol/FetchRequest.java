@@ -7,6 +7,8 @@ import org.xiaoquan.derby.client.KafkaConfiguration;
 import org.xiaoquan.derby.codec.encoder.Encoder;
 import org.xiaoquan.derby.codec.encoder.FetchRequestEncoder;
 
+import java.util.Properties;
+
 /**
  * Created by XiaoQuan on 2015/1/31.
  */
@@ -44,6 +46,7 @@ public class FetchRequest extends BaseRequest{
         super.setClientId(KafkaConfiguration.FETCH_REQUEST_CLIENT_ID);
     }
 
+
     public void add(String topic, int partitionId, long fetchOffset, int maxBytes) {
         if (StringUtils.isBlank(topic)) throw new IllegalStateException("topic is required");
         topicPartitionFetchMap.put(topic, new RequestBody(partitionId, fetchOffset, maxBytes));
@@ -68,6 +71,14 @@ public class FetchRequest extends BaseRequest{
 
     public int getMinBytes() {
         return minBytes;
+    }
+
+    public void setMaxWaitTime(int maxWaitTime) {
+        this.maxWaitTime = maxWaitTime;
+    }
+
+    public void setMinBytes(int minBytes) {
+        this.minBytes = minBytes;
     }
 
     public ListMultimap<String, RequestBody> getTopicPartitionFetchMap() {

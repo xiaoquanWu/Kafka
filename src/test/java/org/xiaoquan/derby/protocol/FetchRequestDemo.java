@@ -18,7 +18,7 @@ public class FetchRequestDemo {
     static FetchRequest fetchRequest = new FetchRequest();
 
     static {
-        fetchRequest.add(topicName, 0, 0);
+        fetchRequest.add(topicName, 0, 73);
     }
 
 
@@ -48,7 +48,9 @@ public class FetchRequestDemo {
             //fetchOffset
             dataOutputStream.writeLong(b.getFetchOffset());
             //maxBytes
+            System.out.println("--------------------------------->:" + b.getMaxBytes());
             dataOutputStream.writeInt(b.getMaxBytes());
+//            dataOutputStream.writeInt(38);
         }
 
         dataOutputStream.close();
@@ -103,7 +105,7 @@ public class FetchRequestDemo {
             out.flush();
 
             DataInputStream dataInputStream = new DataInputStream(in);
-            System.out.println("responseSize: " + dataInputStream.readInt());
+            System.out.println("ResponseSize: " + (Integer.parseInt(dataInputStream.readInt()+"") + 4));
             System.out.println("correlationId:" + dataInputStream.readInt());
 
             int fetchResponseSize = dataInputStream.readInt();
@@ -122,7 +124,7 @@ public class FetchRequestDemo {
                     System.out.println("highWaterMarkOffset:" + dataInputStream.readLong());
                     int messageSetByteSize = dataInputStream.readInt();
                     System.out.println("messageSetByteSize:" + messageSetByteSize);
-
+                    if (messageSetByteSize == 0) break;
 
 //                    int messageSize = dataInputStream.readInt();
 //                    for (int jj = 0; jj < messageSize; jj++) {

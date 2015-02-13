@@ -12,7 +12,7 @@ public class OffsetRequestTest {
 //        offsetRequest.add("test02", 1, -1, 2);
 //        offsetRequest.add("test2", 0);
         offsetRequest.add("test03", 0);
-        offsetRequest.add("test03", 1, -2, 2);
+        offsetRequest.add("test03", 1);
         offsetRequest.add("test03", 2);
         KafkaSocket kafkaSocket = new KafkaSocket("127.0.0.1", 9093);
         Response response = kafkaSocket.send(offsetRequest);

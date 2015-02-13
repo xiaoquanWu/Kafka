@@ -1,5 +1,7 @@
 package org.xiaoquan.derby.client;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xiaoquan.derby.protocol.BaseResponse;
 import org.xiaoquan.derby.protocol.Request;
 import org.xiaoquan.derby.protocol.Response;
@@ -13,6 +15,7 @@ import java.net.Socket;
  * Created by XiaoQuan on 2015/1/5.
  */
 public class KafkaSocket {
+    private Logger logger = LoggerFactory.getLogger(KafkaSocket.class);
 
     private String ip;
     private int port;
@@ -24,6 +27,7 @@ public class KafkaSocket {
         this.port = port;
 
     }
+
     public Response send(Request request) {
         Response response = null;
         Socket socket = null;
@@ -38,29 +42,33 @@ public class KafkaSocket {
 
             byte[] requestBytes = request.encodeRequest();
 
-            System.out.println("Request Byte Size:" + requestBytes.length);
+            logger.info("Request Byte Size:" + requestBytes.length);
             out.write(requestBytes);
             out.flush();
             if (!needResponse) {
                 return null;
             }
+//            Thread.sleep(1000);
             response = new BaseResponse(in);
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
-                out.close();
+                if (out != null)
+                    out.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
             try {
-                in.close();
+                if (in != null)
+                    in.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
             try {
-                socket.close();
+                if (socket != null)
+                    socket.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }

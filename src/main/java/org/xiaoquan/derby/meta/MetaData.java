@@ -2,6 +2,7 @@ package org.xiaoquan.derby.meta;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 
@@ -15,6 +16,8 @@ public class MetaData {
 
     private ListMultimap<TopicMetadata, PartitionMetadata> topicPartitionMetadata = ArrayListMultimap.create();
 
+    private HashMultimap<String, Integer> topicPartitions = HashMultimap.create();
+
 
     public Set<Broker> getBrokers() {
         return brokers;
@@ -25,24 +28,32 @@ public class MetaData {
     }
 
     public Set<Integer> getPartitionsByTopicName(String topicName) {
-        Set<Integer> partitions = Sets.newHashSet();
+        return topicPartitions.get(topicName);
+    }
 
+    public HashMultimap<String, Integer> getTopicPartitions() {
+        if (!topicPartitions.isEmpty()) {
+            return topicPartitions;
+        }
         Set<TopicMetadata> topicMetadataSet = topicPartitionMetadata.keySet();
         for (TopicMetadata topicMetadata : topicMetadataSet) {
-            if (topicMetadata.topicName.equals(topicName)) {
-                for (PartitionMetadata partitionMetadata : topicPartitionMetadata.get(topicMetadata)) {
-                    if (partitionMetadata.getPartitionErrorCode() == 0) {
-                        partitions.add(partitionMetadata.getPartitionId());
-                    }
+            String topicName = topicMetadata.topicErrorCode == 0 ? topicMetadata.topicName : null;
+            if (topicName == null) {
+                break;
+            }
+            for (PartitionMetadata partitionMetadata : topicPartitionMetadata.get(topicMetadata)) {
+                if (partitionMetadata.getPartitionErrorCode() == 0) {
+                    topicPartitions.put(topicName, partitionMetadata.getPartitionId());
                 }
             }
         }
-        return partitions;
+        return topicPartitions;
     }
 
 
     /**
      * 假设只有一个broker
+     *
      * @return
      */
     public Broker getBroker() {
@@ -184,7 +195,7 @@ public class MetaData {
 
         @Override
         public String toString() {
-            return "{partitionId:" + partitionId + ", partitionErrorCode:" + partitionErrorCode + ", leader:" + leader  + ", replicas:" + replicas + ", isr:" + isr + "}";
+            return "{partitionId:" + partitionId + ", partitionErrorCode:" + partitionErrorCode + ", leader:" + leader + ", replicas:" + replicas + ", isr:" + isr + "}";
         }
     }
 
